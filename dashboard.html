@@ -3,6 +3,19 @@
 
 <head>
     <title>Dashboard</title>
+    <script type="text/javascript">
+        function fetchContent() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("tank1").innerHTML =
+                        this.responseText;
+                }
+            };
+            xhttp.open("GET", "ajax_info.txt");
+            xhttp.send();
+        }
+    </script>
 </head>
 
 <body>
@@ -12,7 +25,7 @@
 
     <table>
         <tr>
-            <td
+            <td id = "tank1"
                 style="color: white; background-color: black; text-align: center; width: fit-content; height: fit-content; padding: 100px; margin: 100px;">
                 Tank 1<br>
                 <button>Get Info</button>
