@@ -3,45 +3,143 @@
 
 <head>
     <title>Dashboard</title>
-    <script type="text/javascript">
-        function fetchContent() {
-            const xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("tank1").innerHTML =
-                        this.responseText;
-                }
-            };
-            xhttp.open("GET", "ajax_info.txt");
-            xhttp.send();
+    <style>
+        body {
+            margin-top: 50px;
+            font-family: Arial
         }
-    </script>
+
+        body {
+            font-size: 20px;
+            text-align: center
+        }
+
+        .btn {
+            display: block;
+            width: 280px;
+            margin: auto;
+            padding: 30px
+        }
+
+        .btn {
+            font-size: 30px;
+            color: black;
+            text-decoration: none
+        }
+
+        .off {
+            background-color: SkyBlue
+        }
+
+        .on {
+            background-color: LightSteelBlue
+        }
+
+        td {
+            font-size: 30px;
+            margin-top: 50px;
+            margin-bottom: 5px
+        }
+
+        p {
+            font-size: 30px;
+            margin-top: 50px;
+            margin-bottom: 5px
+        }
+    </style>
 </head>
 
 <body>
-    <div style="color: white; background-color: brown; text-align: center;">
+    <div style="color: white; background-color: brown; text-align: center; padding: 10px;">
         <h1>Water Level Monitoring</h1>
     </div>
 
-    <table>
+    <table style="width: 100%;">
         <tr>
-            <td id = "tank1"
-                style="color: white; background-color: black; text-align: center; width: fit-content; height: fit-content; padding: 100px; margin: 100px;">
+            <td
+                style="color: white; background-color: black; text-align: center; width: fit-content; height: fit-content; padding: 80px;">
                 Tank 1<br>
-                <button>Get Info</button>
+                <p style="font-size: 50%">Enter a unique tempID: <br><input type="text" id="theText1"></p>
+                <button onclick="updateByAJAX_dbData1()">Get Info</button>
+                <p id="tank1" style="font-size: 50%;"></p>
             </td>
             <td
-                style="color: white; background-color: black; text-align: center; width: fit-content; height: fit-content; padding: 100px; margin: 100px">
+                style="color: white; background-color: black; text-align: center; width: fit-content; height: fit-content; padding: 80px;">
                 Tank 2<br>
-                <button>Get Info</button>
+                <p style="font-size: 50%">Enter a unique tempID: <br><input type="text" id="theText2"></p>
+                <button onclick="updateByAJAX_dbData2()">Get Info</button>
+                <p id="tank2" style="font-size: 50%;"></p>
             </td>
         </tr>
     </table><br><br>
     <div>
-        <h1>Motor Control</h1>
-        <Button>Auto</Button>
-        <Button>Manual</Button>
+        <h1 style="text-align: center">Motor Control</h1>
+        <table style="text-align: center; width: 100%;">
+            <tr>
+                <td style="padding: 10px">Auto Mode</td>
+                <td style="padding: 10px">Manual Mode</td>
+            </tr>
+            <tr>
+                <td><button class='btn on' id='Auto' onclick='sendData(id)'>OFF
+                </button></td>
+                <td><button class='btn on' id='Manual' onclick='sendData(id)'>OFF
+                </button></td>
+            </tr>
+
+        </table>
+
     </div>
+    <script>
+        function sendData(butn) {
+            var URL, variab, text;
+            if (butn == 'Auto') {
+                URL = 'AutoURL';
+                variab = 'Auto';
+            }
+            else if (butn == 'Manual') {
+                URL = 'ManualURL';
+                variab = 'Manual';
+            }
+            if (butn == 'Auto' || butn == 'Manual') { // change button class and text 
+                var state = document.getElementById(butn).className;
+                state = (state == 'btn on' ? 'btn off' : 'btn on');
+                text = (state == 'btn on' ? ' OFF' : ' ON');
+                document.getElementById(butn).className = state;
+                document.getElementById(butn).innerHTML = text;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function (butn) {
+                if (this.readyState == 4 && this.status == 200)
+                    document.getElementById(variab).innerHTML = this.
+                        responseText;
+            };
+            xhr.open('GET', URL, true);
+            xhr.send();
+        }
+    </script>
+    <script type="text/javascript">
+		function updateByAJAX_dbData1(){
+			const xhttp=new XMLHttpRequest();
+			xhttp.onload=function(){
+				document.getElementById("tank1").innerText=this.responseText;
+			}
+			id=document.getElementById("theText1").value;
+			console.log(id);
+			xhttp.open("GET", "/waterlevel/db.php?ID="+id);
+			xhttp.send();
+		}
+		function updateByAJAX_dbData2(){
+			const xhttp=new XMLHttpRequest();
+			xhttp.onload=function(){
+				document.getElementById("tank2").innerText=this.responseText;
+			}
+			id=document.getElementById("theText2").value;
+			console.log(id);
+			xhttp.open("GET", "/waterlevel/db.php?ID="+id);
+			xhttp.send();
+		}
+
+	</script>
 </body>
 
 
