@@ -23,6 +23,7 @@ float distanceCm;
 const int trigPin = 5;
 const int echoPin = 18;
 int led = 4; // set the "led" variable as 13
+int relay = 23;
 
 
 void setup() {
@@ -37,6 +38,7 @@ void setup() {
     
     pinMode(led, OUTPUT);   // designate port 13 as output  
 
+    pinMode(relay, OUTPUT);
     
     USE_SERIAL.begin(115200);
 
@@ -82,11 +84,21 @@ void loop() {
 
   // turns on the led when the water level is below 5cm 
   if(distanceCm < 10){
-    digitalWrite(led, HIGH);   // turn the led on
+      digitalWrite(relay, LOW);
+      digitalWrite(led, HIGH); 
+  } 
+  if(distanceCm >= 50 ){
+    digitalWrite(relay, HIGH);
+    digitalWrite(led, LOW);   // turn the led on
+  }
 
-   }else {
-    digitalWrite(led, LOW);    // turn the led off
-   }
+//   if(distanceCm > 50){
+//      digitalWrite(relay, HIGH);
+//      digitalWrite(led, LOW);   // turn the led on
+//   }else {
+//    digitalWrite(led, HIGH);    // turn the led off
+//    digitalWrite(relay, LOW);
+//   }
      
     // wait for WiFi connection
     if((wifiMulti.run() == WL_CONNECTED)) {
@@ -123,7 +135,7 @@ void loop() {
         http.end();
     }
 
-    delay(5000);
+    delay(1000);
     lcd.clear();
 }
 
@@ -131,7 +143,7 @@ void sendData(){
   HTTPClient http;
   Serial.println(" ");
   Serial.println("Sending Reading Request");
-  http.begin("http://IP ADDRESS/Iot/waterTB.php?ownerID=1&location=Eastlegon&water_level=" + String(distanceCm));
+  http.begin("http://192.168.46.56/Iot/waterTB.php?ownerID=4&location=Agbogba&water_level=" + String(distanceCm));
   int httpCode = http.GET();
   String result = http.getString();
 //  Serial.println(result);
@@ -142,7 +154,7 @@ void sendinformation() {
   Serial.println(" ");
   Serial.println("Sending Tank Information Request");
 
-  http.begin("http://IP ADDRESS/Iot/ownerTB.php?ownerID=1&first_name=Eben&last_name=Akolly");
+  http.begin("http://192.168.46.56/Iot/ownerTB.php?ownerID=4&first_name=Gerald&last_name=Akita");
   int httpCode = http.GET();
   String result = http.getString();
 //  Serial.println(result);
