@@ -1,28 +1,8 @@
-/**
- * BasicHTTPClient.ino
- *
- *  Created on: 24.05.2015
- *
- */
-
- #include <LiquidCrystal_I2C.h>
-
-LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-
-const int trigPin = 5;
-const int echoPin = 18;
-int led = 4; // set the "led" variable as 13
-
-
 //define sound speed in cm/uS
 #define SOUND_SPEED 0.034
-
-long duration;
-float distanceCm;
+#include <LiquidCrystal_I2C.h>
 
 #define uS_TO_S_FACTOR 1000000ULL  /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP  5        /* Time ESP32 will go to sleep (in seconds) */
-
 
 #include <Arduino.h>
 
@@ -33,7 +13,17 @@ float distanceCm;
 
 #define USE_SERIAL Serial
 
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
 WiFiMulti wifiMulti;
+
+
+long duration;
+float distanceCm;
+const int trigPin = 5;
+const int echoPin = 18;
+int led = 4; // set the "led" variable as 13
+
 
 void setup() {
     lcd.init();
@@ -61,6 +51,8 @@ void setup() {
     }
 
     wifiMulti.addAP("Ben.Fra.Pri", "M633SFTK");
+
+    
 
 }
 
@@ -95,18 +87,21 @@ void loop() {
    }else {
     digitalWrite(led, LOW);    // turn the led off
    }
-
-       
+     
     // wait for WiFi connection
     if((wifiMulti.run() == WL_CONNECTED)) {
 
         HTTPClient http;
 
+                
+        sendinformation();
+        sendData();
+        
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
         //http.begin("https://www.howsmyssl.com/a/check", ca); //HTTPS
-        http.begin("http://192.168.2.56/Iot/db.php?first_name=paul&last_name=jackson&location=northlegon&water_level=" +String(distanceCm)); //HTTP
 
+        
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
         int httpCode = http.GET();
@@ -130,4 +125,25 @@ void loop() {
 
     delay(5000);
     lcd.clear();
+}
+
+void sendData(){
+  HTTPClient http;
+  Serial.println(" ");
+  Serial.println("Sending Reading Request");
+  http.begin("http://IP ADDRESS/Iot/waterTB.php?ownerID=1&location=Eastlegon&water_level=" + String(distanceCm));
+  int httpCode = http.GET();
+  String result = http.getString();
+//  Serial.println(result);
+}
+
+void sendinformation() {
+  HTTPClient http;
+  Serial.println(" ");
+  Serial.println("Sending Tank Information Request");
+
+  http.begin("http://IP ADDRESS/Iot/ownerTB.php?ownerID=1&first_name=Eben&last_name=Akolly");
+  int httpCode = http.GET();
+  String result = http.getString();
+//  Serial.println(result);
 }
