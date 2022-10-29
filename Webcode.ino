@@ -29,8 +29,8 @@ int relay = 23;
 
 
 
-const char* ssid = "Gerald";
-const char* password = "Face12345";
+const char* ssid = "DUFIE-HOSTEL";
+const char* password = "Duf1e@9723";
 
 WebServer server(80);
 
@@ -115,7 +115,7 @@ void operation(){
 }
 
 void setup(void) {
-  wifiMulti.addAP("Gerald", "Face12345");
+  wifiMulti.addAP("DUFIE-HOSTEL", "Duf1e@9723");
   lcd.init();
   lcd.clear();         
   lcd.backlight();      // Make sure backlight is on
@@ -210,7 +210,7 @@ void sendData(){
   HTTPClient http;
   Serial.println(" ");
   Serial.println("Sending Reading Request");
-  http.begin("http://172.20.10.8/waterlevel/waterTB.php?ownerID=1&location=Eastlegon&water_level=" + String(distanceCm));
+  http.begin("http://192.168.103.48/waterlevel/waterTB.php?ownerID=1&location=Eastlegon&water_level=" + String(distanceCm));
   int httpCode = http.GET();
   String result = http.getString();
 //  Serial.println(result);
@@ -221,7 +221,7 @@ void sendinformation() {
   Serial.println(" ");
   Serial.println("Sending Tank Information Request");
 
-  http.begin("http://172.20.10.8/waterlevel/ownerTB.php?ownerID=1&first_name=Eben&last_name=Akolly");
+  http.begin("http://192.168.103.48/waterlevel/ownerTB.php?ownerID=1&first_name=Eben&last_name=Akolly");
   int httpCode = http.GET();
   String result = http.getString();
 //  Serial.println(result);
