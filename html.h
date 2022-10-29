@@ -145,7 +145,7 @@ char page[] PROGMEM = R"====(
       }
       id=document.getElementById("theText1").value;
       console.log(id);
-      xhttp.open("GET", "172.20.10.8/waterlevel/db.php?id="+id);
+      xhttp.open("GET", "http://192.168.103.48/waterlevel/db.php?id="+id);
       xhttp.send();
     }
     function updateByAJAX_dbData2(){
@@ -155,7 +155,7 @@ char page[] PROGMEM = R"====(
       }
       id=document.getElementById("theText2").value;
       console.log(id);
-      xhttp.open("GET", "172.20.10.8/waterlevel/db.php?id="+id);
+      xhttp.open("GET", "http://192.168.103.48/waterlevel/db.php?id="+id);
       xhttp.send();
     }
 
