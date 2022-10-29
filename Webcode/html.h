@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+char page[] PROGMEM = R"====(
+ <!DOCTYPE html>
 <html>
 
 <head>
@@ -137,28 +138,28 @@
         }
     </script>
     <script type="text/javascript">
-		function updateByAJAX_dbData1(){
-			const xhttp=new XMLHttpRequest();
-			xhttp.onload=function(){
-				document.getElementById("tank1").innerText=this.responseText;
-			}
-			id=document.getElementById("theText1").value;
-			console.log(id);
-			xhttp.open("GET", "/waterlevel/db.php?id="+id);
-			xhttp.send();
-		}
-		function updateByAJAX_dbData2(){
-			const xhttp=new XMLHttpRequest();
-			xhttp.onload=function(){
-				document.getElementById("tank2").innerText=this.responseText;
-			}
-			id=document.getElementById("theText2").value;
-			console.log(id);
-			xhttp.open("GET", "/waterlevel/db.php?id="+id);
-			xhttp.send();
-		}
+   function updateByAJAX_dbData1(){
+      const xhttp=new XMLHttpRequest();
+      xhttp.onload=function(){
+        document.getElementById("tank1").innerText=this.responseText;
+      }
+      id=document.getElementById("theText1").value;
+      console.log(id);
+      xhttp.open("GET", "http://192.168.103.48/waterlevel/db.php?id="+id);
+      xhttp.send();
+    }
+    function updateByAJAX_dbData2(){
+      const xhttp=new XMLHttpRequest();
+      xhttp.onload=function(){
+        document.getElementById("tank2").innerText=this.responseText;
+      }
+      id=document.getElementById("theText2").value;
+      console.log(id);
+      xhttp.open("GET", "http://192.168.103.48/waterlevel/db.php?id="+id);
+      xhttp.send();
+    }
 
-	</script>
+  </script>
 </body>
 
 
@@ -169,3 +170,4 @@
 
 
 </html>
+)====";
