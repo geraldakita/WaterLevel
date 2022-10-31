@@ -29,8 +29,8 @@ int relay = 23;
 
 
 
-const char* ssid = "DUFIE-HOSTEL";
-const char* password = "Duf1e@9723";
+const char* ssid = "Gerald";
+const char* password = "Face12345";
 
 WebServer server(80);
 
@@ -40,6 +40,10 @@ void handleRoot() {
 //  digitalWrite(led, 1);
   server.send(200, "text/html", page);
 //  digitalWrite(led, 0);
+}
+
+void waterLevel(){
+  server.send(200, "text/plain", String(distanceCm));
 }
 
 void handleNotFound() {
@@ -91,7 +95,7 @@ void operation(){
   // Calculate the distance
   distanceCm = duration * SOUND_SPEED/2;
     delay(1000);
-    lcd.clear();
+//    lcd.clear();
     Serial.println(distanceCm);
   
   if (state == 0){
@@ -115,7 +119,7 @@ void operation(){
 }
 
 void setup(void) {
-  wifiMulti.addAP("DUFIE-HOSTEL", "Duf1e@9723");
+  wifiMulti.addAP("Gerald", "Face12345");
   lcd.init();
   lcd.clear();         
   lcd.backlight();      // Make sure backlight is on
@@ -154,6 +158,7 @@ void setup(void) {
   server.on("/AutoStart", autoOP);
   server.on("/ManualStart", manStartOP);
   server.on("/ManualStop", manStopOP);
+  server.on("/waterLevel", waterLevel);
 
   server.on("/inline", []() {
     server.send(200, "text/plain", "this works as well");
@@ -210,7 +215,7 @@ void sendData(){
   HTTPClient http;
   Serial.println(" ");
   Serial.println("Sending Reading Request");
-  http.begin("http://192.168.103.48/waterlevel/waterTB.php?ownerID=1&location=Eastlegon&water_level=" + String(distanceCm));
+  http.begin("http://172.20.10.8/waterlevel/waterTB.php?ownerID=1&location=Eastlegon&water_level=" + String(distanceCm));
   int httpCode = http.GET();
   String result = http.getString();
 //  Serial.println(result);
@@ -221,7 +226,7 @@ void sendinformation() {
   Serial.println(" ");
   Serial.println("Sending Tank Information Request");
 
-  http.begin("http://192.168.103.48/waterlevel/ownerTB.php?ownerID=1&first_name=Eben&last_name=Akolly");
+  http.begin("http://172.20.10.8/waterlevel/ownerTB.php?ownerID=1&first_name=Eben&last_name=Akolly");
   int httpCode = http.GET();
   String result = http.getString();
 //  Serial.println(result);
