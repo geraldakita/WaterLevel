@@ -72,6 +72,7 @@
             </td>
         </tr>
     </table><br><br>
+    <p id = "waterLevel"></p>
     <div>
         <h1 style="text-align: center">Motor Control</h1>
         <table style="text-align: center; width: 100%;">
@@ -94,7 +95,19 @@
         </table>
 
     </div>
+    <a href = "dbLast.html">DataBase</a>
     <script>
+        setInterval(function() {waterLevel();},500);
+        function waterLevel(){
+          var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function (butn) {
+                if (this.readyState == 4 && this.status == 200)
+                    document.getElementById("waterLevel").innerHTML = this.
+                        responseText;
+            };
+            xhr.open('GET', "waterLevel", true);
+            xhr.send();
+        }
         function autoStart(butn) {
             var URL, variab, text;
             if (butn == 'AutoStart') {
@@ -137,28 +150,28 @@
         }
     </script>
     <script type="text/javascript">
-		function updateByAJAX_dbData1(){
-			const xhttp=new XMLHttpRequest();
-			xhttp.onload=function(){
-				document.getElementById("tank1").innerText=this.responseText;
-			}
-			id=document.getElementById("theText1").value;
-			console.log(id);
-			xhttp.open("GET", "/waterlevel/db.php?id="+id);
-			xhttp.send();
-		}
-		function updateByAJAX_dbData2(){
-			const xhttp=new XMLHttpRequest();
-			xhttp.onload=function(){
-				document.getElementById("tank2").innerText=this.responseText;
-			}
-			id=document.getElementById("theText2").value;
-			console.log(id);
-			xhttp.open("GET", "/waterlevel/db.php?id="+id);
-			xhttp.send();
-		}
+   function updateByAJAX_dbData1(){
+      const xhttp=new XMLHttpRequest();
+      xhttp.onload=function(){
+        document.getElementById("tank1").innerText=this.responseText;
+      }
+      id=document.getElementById("theText1").value;
+      console.log(id);
+      xhttp.open("GET", "http://172.20.10.8/waterlevel/db.php?id="+id);
+      xhttp.send();
+    }
+    function updateByAJAX_dbData2(){
+      const xhttp=new XMLHttpRequest();
+      xhttp.onload=function(){
+        document.getElementById("tank2").innerText=this.responseText;
+      }
+      id=document.getElementById("theText2").value;
+      console.log(id);
+      xhttp.open("GET", "http://172.20.10.8/waterlevel/db.php?id="+id);
+      xhttp.send();
+    }
 
-	</script>
+  </script>
 </body>
 
 

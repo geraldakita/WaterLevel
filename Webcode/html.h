@@ -73,6 +73,7 @@ char page[] PROGMEM = R"====(
             </td>
         </tr>
     </table><br><br>
+    <p id = "waterLevel"></p>
     <div>
         <h1 style="text-align: center">Motor Control</h1>
         <table style="text-align: center; width: 100%;">
@@ -96,6 +97,17 @@ char page[] PROGMEM = R"====(
 
     </div>
     <script>
+        setInterval(function() {waterLevel();},500);
+        function waterLevel(){
+          var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function (butn) {
+                if (this.readyState == 4 && this.status == 200)
+                    document.getElementById("waterLevel").innerHTML = this.
+                        responseText;
+            };
+            xhr.open('GET', "waterLevel", true);
+            xhr.send();
+        }
         function autoStart(butn) {
             var URL, variab, text;
             if (butn == 'AutoStart') {
@@ -145,7 +157,7 @@ char page[] PROGMEM = R"====(
       }
       id=document.getElementById("theText1").value;
       console.log(id);
-      xhttp.open("GET", "http://192.168.103.48/waterlevel/db.php?id="+id);
+      xhttp.open("GET", "http://172.20.10.8/waterlevel/db.php?id="+id);
       xhttp.send();
     }
     function updateByAJAX_dbData2(){
@@ -155,7 +167,7 @@ char page[] PROGMEM = R"====(
       }
       id=document.getElementById("theText2").value;
       console.log(id);
-      xhttp.open("GET", "http://192.168.103.48/waterlevel/db.php?id="+id);
+      xhttp.open("GET", "http://172.20.10.8/waterlevel/db.php?id="+id);
       xhttp.send();
     }
 

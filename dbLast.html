@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        DB Dashboard
+    </title>
+</head>
+<style>
+    body {
+        margin-top: 50px;
+        font-family: Arial
+    }
+
+    body {
+        font-size: 20px;
+        text-align: center
+    }
+
+    .btn {
+        display: block;
+        width: 280px;
+        margin: auto;
+        padding: 30px
+    }
+
+    .btn {
+        font-size: 30px;
+        color: black;
+        text-decoration: none
+    }
+
+    .off {
+        background-color: SkyBlue
+    }
+
+    .on {
+        background-color: LightSteelBlue
+    }
+
+    td {
+        font-size: 30px;
+        margin-top: 50px;
+        margin-bottom: 5px
+    }
+
+    p {
+        font-size: 30px;
+        margin-top: 50px;
+        margin-bottom: 5px
+    }
+</style>
+
+<body>
+    <div style="color: white; background-color: brown; text-align: center; padding: 10px;">
+        <h1>Water Level Monitoring</h1>
+    </div>
+    <button onclick="tank()">Show results</button>
+    <p id="results"></p>
+</body>
+<script type = "text/javascript">
+    function tank() {
+
+        const xhttp = new XMLHttpRequest();
+        //document.getElementById("tank1").innerHTML = "Hello";
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                document.getElementById("results").innerHTML = this.responseText;
+            }
+        };
+
+        xhttp.open("GET", "/waterlevel/DESC5.php?ownerid=1");
+        xhttp.send();
+    };
+</script>
+
+</html>
